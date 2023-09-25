@@ -1,6 +1,6 @@
 import time
 
-token = r'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2OTU4MDYxOTUsImNpZCI6IjM2MzQ1NWRiZWQxZDVhMDQyNjQxN2JjMjE0N2ZjYjEzIn0.Y3QAd9MiKukrewOTcm3TbUnwHzTr-qNIIFHqu32A5wc'
+token=r'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2OTU4MjM5MDksImNpZCI6IjM2MzQ1NWRiZWQxZDVhMDQyNjQxN2JjMjE0N2ZjYjEzIn0.3cpJlLfSSeEtVRqqB3mokmBAML0kDYD8exDkMZEZZbQ'
 row_count_per_page = 20
 sleep_time = 60
 
@@ -72,7 +72,14 @@ def crawl_car(page):
 
 
 def handle_res(data, last_page, last_index):
-    data = picklewa.json.loads(data.text)['data']['rows']
+
+    data = picklewa.json.loads(data.text)
+    if data['errcode']==-6:
+        logwa.infof("Token invalidity, input new token:")
+        head['Token']=input()
+    else:
+        data=data['data']['rows']
+
     res = []
 
     for row in range(0, len(data)):
