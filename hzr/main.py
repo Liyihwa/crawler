@@ -1,6 +1,6 @@
 import time
 
-token=r'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2OTU4MjM5MDksImNpZCI6IjM2MzQ1NWRiZWQxZDVhMDQyNjQxN2JjMjE0N2ZjYjEzIn0.3cpJlLfSSeEtVRqqB3mokmBAML0kDYD8exDkMZEZZbQ'
+token=r'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2OTU4MjQzODIsImNpZCI6IjM2MzQ1NWRiZWQxZDVhMDQyNjQxN2JjMjE0N2ZjYjEzIn0._rcFup0XbptZkQucz3iuk95nnCq47CVMQU2oGCt1vZQ'
 row_count_per_page = 20
 sleep_time = 60
 
@@ -91,7 +91,9 @@ def handle_res(data, last_page, last_index):
     else:
         return res, last_page, last_index
 
-
+def refresh_token():
+    res=requests.get('https://dyg.ruoguinfo.cn:2517/dyg/refreshToken',headers=head)
+    logwa.infof("Refresh token :{}",res.text)
 def main():
     logwa.line()
     logwa.info("Start crawling")
@@ -129,6 +131,7 @@ def main():
             logwa.infof("Get rows : {::ux}", len(res))
             for row in res:
                 f_car.write(picklewa.json.dumps(row) + '\n')
+            refresh_token()
 
             time.sleep(sleep_time)
     except KeyboardInterrupt:
